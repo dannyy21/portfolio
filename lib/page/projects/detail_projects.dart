@@ -1,28 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ProjectDetailPage extends StatelessWidget {
-  final String title;
-  final String description;
-  final List<String>? imageUrls;
-  final Map<String, dynamic> additionalInfo;
-  final List<String>? taskResponsibilities;
-  final List<String>? tech;
-  final String header;
-  final String? link;
-  const ProjectDetailPage(
-      {super.key,
-      required this.title,
-      required this.description,
-      this.imageUrls,
-      required this.additionalInfo,
-      this.tech,
-      this.link,
-      required this.header,
-      this.taskResponsibilities});
+  const ProjectDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
     final textTheme = Theme.of(context).textTheme;
+
     String capitalize(String text) {
       if (text.isEmpty) return text;
       return text[0].toUpperCase() + text.substring(1);
@@ -31,15 +17,16 @@ class ProjectDetailPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 300, vertical: 32),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Header Image
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
                 child: Image.asset(
-                  header,
+                  arguments['header'] ?? '',  // Provide a fallback if header is null
                   fit: BoxFit.fill,
                   height: 600,
                   width: double.infinity,
@@ -48,8 +35,9 @@ class ProjectDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
+            // Project Title
             Text(
-              title,
+              arguments['title'] ?? 'No Title',  // Fallback if title is missing
               style: textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.black87,
@@ -57,38 +45,42 @@ class ProjectDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 12),
 
+            // Project Description
             Text(
-              description,
+              arguments['description'] ?? 'No description available',
               style: textTheme.bodyLarge?.copyWith(color: Colors.grey[800]),
             ),
             const SizedBox(height: 24),
-            Text(
-              "Tasks & Responsibilities",
-              style: textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
+
+            // Tasks and Responsibilities
+            if (arguments['taskResponsibilities'] != null && arguments['taskResponsibilities']!.isNotEmpty)
+              Text(
+                "Tasks & Responsibilities",
+                style: textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
               ),
-            ),
             const SizedBox(height: 12),
-            taskResponsibilities != null && taskResponsibilities!.isNotEmpty
+            arguments['taskResponsibilities'] != null && arguments['taskResponsibilities']!.isNotEmpty
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: taskResponsibilities!
-                        .map((task) => Padding(
+                    children: arguments['taskResponsibilities']!
+                        .map<Widget>((task) => Padding(
                               padding: const EdgeInsets.only(bottom: 12),
                               child: Text(
                                 "• $task",
-                                style: textTheme.bodyLarge
-                                    ?.copyWith(color: Colors.grey[800]),
+                                style: textTheme.bodyLarge?.copyWith(color: Colors.grey[800]),
                               ),
                             ))
-                        .toList())
+                        .toList(),
+                  )
                 : Container(),
 
             const SizedBox(height: 24),
 
-            // Additional Information
-            if (additionalInfo.isNotEmpty) ...[
+            // Additional Information Section
+            if (arguments['additionalInfo'] != null && arguments['additionalInfo'].isNotEmpty) ...[
               Text(
                 "Project Details",
                 style: textTheme.headlineSmall?.copyWith(
@@ -97,7 +89,7 @@ class ProjectDetailPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              ...additionalInfo.entries.map((entry) {
+              ...arguments['additionalInfo'].entries.map<Widget>((entry) {
                 final key = entry.key;
                 final value = entry.value;
 
@@ -115,24 +107,25 @@ class ProjectDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       if (value is List)
-                        ...value.map((item) => Text(
+                        ...value.map<Widget>((item) => Text(
                               "• $item",
-                              style: textTheme.bodyLarge
-                                  ?.copyWith(color: Colors.grey[800]),
+                              style: textTheme.bodyLarge?.copyWith(color: Colors.grey[800]),
                             ))
                       else
                         Text(
                           value.toString(),
-                          style: textTheme.bodyMedium
-                              ?.copyWith(color: Colors.grey[700]),
+                          style: textTheme.bodyMedium?.copyWith(color: Colors.grey[700]),
                         ),
                     ],
                   ),
                 );
-              }),
+              }).toList(),
             ],
+
             const SizedBox(height: 24),
-            if (tech != null && tech!.isNotEmpty) ...[
+
+            // Technologies Used
+            if (arguments['tech'] != null && arguments['tech']!.isNotEmpty) ...[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -145,11 +138,10 @@ class ProjectDetailPage extends StatelessWidget {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: tech!
-                        .map((item) => Text(
+                    children: arguments['tech']!
+                        .map<Widget>((item) => Text(
                               "• $item",
-                              style: textTheme.bodyLarge
-                                  ?.copyWith(color: Colors.grey[800]),
+                              style: textTheme.bodyLarge?.copyWith(color: Colors.grey[800]),
                             ))
                         .toList(),
                   )
@@ -157,7 +149,9 @@ class ProjectDetailPage extends StatelessWidget {
               ),
             ],
             const SizedBox(height: 24),
-            if (imageUrls != null && imageUrls!.isNotEmpty) ...[
+
+            // Gallery
+            if (arguments['imageUrls'] != null && arguments['imageUrls']!.isNotEmpty) ...[
               Text(
                 "Gallery",
                 style: textTheme.headlineSmall?.copyWith(
@@ -167,7 +161,7 @@ class ProjectDetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               GridView.builder(
-                itemCount: imageUrls?.length,
+                itemCount: arguments['imageUrls']?.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -180,14 +174,14 @@ class ProjectDetailPage extends StatelessWidget {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: Image.asset(
-                      imageUrls?[index]?? "",
+                      arguments['imageUrls']?[index] ?? "",
                       fit: BoxFit.fitHeight,
                     ),
                   );
                 },
               ),
-            ]else ...[
-            Text(
+            ] else ...[
+              Text(
                 "There are no images available for this project due to privacy agreements and confidentiality terms",
                 style: textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/page/projects/detail_projects.dart';
+import 'package:portfolio/page/section/nav_bar_widget.dart';
 
 class ListProjects extends StatelessWidget {
   const ListProjects({super.key});
@@ -163,134 +164,122 @@ class ListProjects extends StatelessWidget {
         ],
         'results':
             'Platform ini membantu perusahaan menghemat waktu administrasi hingga 30%.',
-       
       },
     ];
 
     final personalProjects = [
-  {
-    'title': 'UMKM App',
-    'description':
-        'UMKM App is a mobile application built to help small and medium enterprises manage their operations digitally. Designed with clean architecture principles, the app supports product listing, simple inventory, and order tracking. The structure promotes separation of concerns and maintainability, making it easier to scale and adapt.',
-   
-    'technologies': [
-      'Flutter',
-      'Clean Architecture',
-      'GetIt',
-      'Dartz',
-      'REST API',
-      'Bloc',
-    ],
-    'duration': 'February 2024 - April 2024',
-    'role': 'Mobile Developer',
-    'taskResponsibilities': [
-      'Built the entire architecture using clean architecture layers (domain, data, presentation)',
-      'Implemented dependency injection using GetIt for scalable and testable code',
-      'Developed CRUD operations for product and order management',
-      'Designed a responsive and clean UI using Flutter',
-      'Tested business logic using unit testing with mock repositories',
-    ],
-    'challenges': [
-      'Menjaga pemisahan logika bisnis dan UI',
-      'Menjaga codebase tetap scalable dan testable',
-    ],
-    'solutions': [
-      'Menggunakan pattern use case untuk memisahkan logika bisnis',
-      'Menerapkan Repository dan Entity pattern',
-    ],
-    'results':
-        'Aplikasi membantu pemilik UMKM mengelola stok dan penjualan secara digital, mengurangi pencatatan manual hingga 80%.',
-  },
-    {
-    'title': 'Stock Tracker',
-    'description':
-        'A simple food delivery mobile app developed using Kotlin. The app includes features like menu browsing, cart functionality, and order confirmation. The UI is minimalist, focusing on clean layout and smooth user flow.',
-    
-    'technologies': [
-      'Kotlin',
-      'MVVM',
-      'Retrofit',
-      'Room Database',
-      'LiveData',
-    ],
-    'duration': 'July 2023 - August 2023',
-    'role': 'Mobile Developer',
-    'taskResponsibilities': [
-      'Built the UI using XML and Jetpack components',
-      'Implemented REST API integration using Retrofit',
-      'Handled local caching with Room',
-      'Managed UI state with ViewModel and LiveData',
-    ],
-    'challenges': [
-      'Menjaga struktur code tetap clean di aplikasi sederhana',
-    ],
-    'solutions': [
-      'Menerapkan arsitektur MVVM secara konsisten',
-    ],
-    'results':
-        'Proyek ini digunakan untuk latihan pribadi dan showcase implementasi Kotlin modern stack.',
-  },
-  {
-    'title': 'E-Learning App',
-    'description':
-        'A simple mobile e-learning app designed for students to access learning materials, track progress, and view lessons. Built with Flutter, the app prioritizes usability and clarity to ensure smooth navigation and a distraction-free learning experience.',
-  
-    'technologies': [
-      'Flutter',
-      'Provider',
-      'REST API',
-      'Firebase',
-    ],
-    'duration': 'May 2023 - June 2023',
-    'role': 'Mobile Developer',
-    'taskResponsibilities': [
-      'Designed the UI and UX for the learning module and progress tracker',
-      'Built content viewer and quiz components with Flutter',
-      'Integrated Firebase for user authentication and analytics',
-      'Created a dynamic dashboard for student progress',
-    ],
-    'challenges': [
-      'Membuat tampilan UI yang fokus dan mudah dipahami pengguna',
-    ],
-    'solutions': [
-      'Menggunakan struktur modular untuk komponen pembelajaran',
-    ],
-    'results':
-        'Digunakan sebagai prototipe oleh beberapa dosen untuk pilot testing di lingkungan akademik.',
-  },
-  {
-    'title': 'Simple Food Delivery App',
-    'description':
-        'A simple food delivery mobile app developed using Kotlin. The app includes features like menu browsing, cart functionality, and order confirmation. The UI is minimalist, focusing on clean layout and smooth user flow.',
-   
-    'technologies': [
-      'Kotlin',
-      'MVVM',
-      'Retrofit',
-      'Room Database',
-      'LiveData',
-    ],
-    'duration': 'July 2023 - August 2023',
-    'role': 'Mobile Developer',
-    'taskResponsibilities': [
-      'Built the UI using XML and Jetpack components',
-      'Implemented REST API integration using Retrofit',
-      'Handled local caching with Room',
-      'Managed UI state with ViewModel and LiveData',
-    ],
-    'challenges': [
-      'Menjaga struktur code tetap clean di aplikasi sederhana',
-    ],
-    'solutions': [
-      'Menerapkan arsitektur MVVM secara konsisten',
-    ],
-    'results':
-        'Proyek ini digunakan untuk latihan pribadi dan showcase implementasi Kotlin modern stack.',
-  },
-];
+      {
+        'title': 'UMKM App',
+        'description':
+            'UMKM App is a mobile application built to help small and medium enterprises manage their operations digitally. Designed with clean architecture principles, the app supports product listing, simple inventory, and order tracking. The structure promotes separation of concerns and maintainability, making it easier to scale and adapt.',
+        'technologies': [
+          'Flutter',
+          'Clean Architecture',
+          'GetIt',
+          'Dart',
+          'REST API',
+          'Bloc',
+          'Supabase',
+          'Firebase',
+          'Git',
+          'Android Studio',
+          'Visual Studio Code',
+          'Geolocator',
+          'Deeplink',
+          'Push Notification',
+        ],
+        'role': 'Mobile Developer',
+        'duration': '-',
+        'taskResponsibilities': [
+          'Built the entire architecture using clean architecture layers (domain, data, presentation)',
+          'Implemented dependency injection using GetIt for scalable and testable code',
+          'Developed CRUD operations',
+          'Designed a responsive and clean UI using Flutter',
+          'Tested business logic using unit testing with mock repositories',
+          'Deeplink and push notification integration',
+        ],
+      },
+      {
+        'title': 'Spending Tracker',
+        'description':
+            'A simple spending tracker mobile app built using Kotlin and Jetpack Compose. The app allows users to add and track their spending, view transaction history, and manage their budget. The UI is designed to be intuitive and clean, with a focus on ease of use and smooth user experience.',
+        'technologies': [
+          'Kotlin',
+          'Jetpack Compose',
+        ],
+        'duration': '-',
+        'role': 'Mobile Developer',
+        'taskResponsibilities': [
+          'Developed the UI using Jetpack Compose components',
+          'Integrated local database with Room to store transactions',
+          'Managed UI state with ViewModel and LiveData',
+          'Implemented simple budget tracking functionality',
+        ],
+        'challenges': [
+          'Ensuring the app remains simple and functional while maintaining clean code',
+        ],
+        'solutions': [
+          'Using Jetpack Compose for a more declarative UI and efficient state management',
+        ],
+        'results':
+            'This project was developed for personal practice and as a showcase of Kotlin and Jetpack Compose capabilities in building modern mobile apps.',
+      },
+
+      // {
+      //   'title': 'E-Learning App',
+      //   'description':
+      //       'A simple mobile e-learning app designed for students to access learning materials, track progress, and view lessons. Built with Flutter, the app prioritizes usability and clarity to ensure smooth navigation and a distraction-free learning experience.',
+
+      //   'technologies': [
+      //     'Flutter',
+      //     'Provider',
+      //     'REST API',
+      //     'Firebase',
+      //   ],
+      //   'duration': 'May 2023 - June 2023',
+      //   'role': 'Mobile Developer',
+      //   'taskResponsibilities': [
+      //     'Designed the UI and UX for the learning module and progress tracker',
+      //     'Built content viewer and quiz components with Flutter',
+      //     'Integrated Firebase for user authentication and analytics',
+      //     'Created a dynamic dashboard for student progress',
+      //   ],
+      //   'challenges': [
+      //     'Membuat tampilan UI yang fokus dan mudah dipahami pengguna',
+      //   ],
+      //   'solutions': [
+      //     'Menggunakan struktur modular untuk komponen pembelajaran',
+      //   ],
+      //   'results':
+      //       'Digunakan sebagai prototipe oleh beberapa dosen untuk pilot testing di lingkungan akademik.',
+      // },
+      {
+        'title': 'Simple Food Delivery App',
+        'description':
+            'A simple food delivery mobile app developed using Kotlin. The app includes features like menu browsing, cart functionality, and order confirmation. The UI is minimalist, focusing on clean layout and smooth user flow.',
+        'technologies': [
+          'Kotlin',
+          'MVVM',
+          'Retrofit',
+        ],
+        'duration': 'July 2023 - August 2023',
+        'role': 'Mobile Developer',
+        'taskResponsibilities': [
+          'Built the UI using XML and Jetpack components',
+          'Implemented REST API integration using Retrofit',
+        ],
+      },
+    ];
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FD),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60),
+        child: NavbarWidget(
+          onHome: () => Navigator.pushNamed(context, '/'),
+          onProjects: () => Navigator.pushNamed(context, '/list-projects'),
+        ),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -361,8 +350,7 @@ class ListProjects extends StatelessWidget {
                           crossAxisCount: crossAxisCount,
                           mainAxisSpacing: 16.0,
                           crossAxisSpacing: 16.0,
-                      childAspectRatio: isWideScreen ? 1.5 : 1.2,
-
+                          childAspectRatio: isWideScreen ? 1.5 : 1.2,
                         ),
                         itemCount: personalProjects.length,
 
@@ -444,24 +432,24 @@ class ListProjects extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushNamed(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => ProjectDetailPage(
-                              title: project['title'] as String,
-                              header: project['header'] as String? ?? 'lib/assets/placeholder.png',
-                              description: project['description'] as String,
-                              imageUrls: project['gallery'] as List<String>?,
-                              tech: project['technologies'] as List<String>?,
-                              taskResponsibilities:
-                                  project['taskResponsibilities']
-                                      as List<String>?,
-                              additionalInfo: {
-                                'role': project['role'],
-                                'duration': project['duration'],
-                              },
-                              link: project['link'] as String?),
-                        ),
+                        '/project-detail',
+                        arguments: {
+                          'title': project['title'] as String,
+                          'header': project['header'] as String? ??
+                              'lib/assets/placeholder.png',
+                          'description': project['description'] as String,
+                          'imageUrls': project['gallery'] as List<String>?,
+                          'tech': project['technologies'] as List<String>?,
+                          'taskResponsibilities':
+                              project['taskResponsibilities'] as List<String>?,
+                          'additionalInfo': {
+                            'role': project['role'],
+                            'duration': project['duration'],
+                          },
+                          'link': project['link'] as String?
+                        },
                       );
                     },
                     style: ElevatedButton.styleFrom(

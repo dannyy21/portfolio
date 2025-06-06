@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/page/projects/detail_projects.dart';
 import 'package:portfolio/page/projects/list_projects.dart';
 
 import 'page/homepage.dart';
@@ -17,6 +18,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => HomePage(),
         '/list-projects': (context) => const ListProjects(),
+        '/project-detail': (context) => const ProjectDetailPage(),
+
       },
       debugShowCheckedModeBanner: false,
       title: 'Portfolio Danny Putra Pertama',

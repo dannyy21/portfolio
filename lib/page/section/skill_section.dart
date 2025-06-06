@@ -7,8 +7,7 @@ class SkillSetSection extends StatefulWidget {
   _SkillSetSectionState createState() => _SkillSetSectionState();
 }
 
-class _SkillSetSectionState extends State<SkillSetSection>
-    with SingleTickerProviderStateMixin {
+class _SkillSetSectionState extends State<SkillSetSection> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _animation;
 
@@ -47,8 +46,9 @@ class _SkillSetSectionState extends State<SkillSetSection>
         builder: (context, constraints) {
           double screenWidth = constraints.maxWidth;
 
+        
           double imageSize = screenWidth * 0.15;
-          imageSize = imageSize.clamp(50, 80);
+          imageSize = imageSize.clamp(50.0, 80.0); 
 
           double fontSize = imageSize / 5;
 
@@ -59,7 +59,7 @@ class _SkillSetSectionState extends State<SkillSetSection>
                 child: Text(
                   'Skillset',
                   style: TextStyle(
-                    fontSize: 28,
+                    fontSize: screenWidth < 600 ? 24 : 28, 
                     fontWeight: FontWeight.bold,
                     color: Colors.blueGrey.shade700,
                   ),
@@ -68,32 +68,25 @@ class _SkillSetSectionState extends State<SkillSetSection>
               const SizedBox(height: 24),
               Wrap(
                 alignment: WrapAlignment.center,
-                spacing: screenWidth * 0.05,
-                runSpacing: screenWidth * 0.01,
+                spacing: screenWidth * 0.05, 
+                runSpacing: screenWidth * 0.01, 
                 children: [
-                  _buildSkillSet('lib/assets/flutterflow.jpg', "Flutter Flow",
-                      imageSize, fontSize),
-                  _buildSkillSet(
-                      'lib/assets/flutter.png', "Flutter", imageSize, fontSize),
-                  _buildSkillSet('lib/assets/react.png', "React Native",
-                      imageSize, fontSize),
-                  _buildSkillSet(
-                      'lib/assets/kotlin.png', "Kotlin", imageSize, fontSize),
-                  _buildSkillSet(
-                      'lib/assets/swift.jpg', "Swift", imageSize, fontSize),
+                  _buildSkillSet('lib/assets/flutterflow.jpg', "Flutter Flow", imageSize, fontSize),
+                  _buildSkillSet('lib/assets/flutter.png', "Flutter", imageSize, fontSize),
+                  _buildSkillSet('lib/assets/react.png', "React Native", imageSize, fontSize),
+                  _buildSkillSet('lib/assets/kotlin.png', "Kotlin", imageSize, fontSize),
+                  _buildSkillSet('lib/assets/swift.jpg', "Swift", imageSize, fontSize),
                 ],
               ),
               const SizedBox(height: 48),
-           
             ],
           );
         },
       ),
     );
   }
- 
-  Widget _buildSkillSet(
-      String imagePath, String skillName, double imageSize, double fontSize) {
+
+  Widget _buildSkillSet(String imagePath, String skillName, double imageSize, double fontSize) {
     return SlideTransition(
       position: _animation,
       child: Column(
@@ -121,6 +114,4 @@ class _SkillSetSectionState extends State<SkillSetSection>
       ),
     );
   }
-
-
 }

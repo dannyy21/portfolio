@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/page/section/contact_me_section.dart';
+import 'package:portfolio/page/section/nav_bar_widget.dart';
 import 'package:portfolio/page/section/skill_section.dart';
 import 'package:portfolio/page/section/technical_expertise_section.dart';
 import 'package:portfolio/page/section/toolbox_section.dart';
@@ -34,6 +35,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60),
+        child: NavbarWidget(
+          onHome: () => Navigator.pushNamed(context, '/'),
+          onProjects: () => Navigator.pushNamed(context, '/list-projects'),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         controller: _scrollController,

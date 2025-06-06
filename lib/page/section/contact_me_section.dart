@@ -4,50 +4,68 @@ import 'package:url_launcher/url_launcher.dart';
 class ContactMeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFFE8F0FF), Color(0xFFE8F0FF)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 40),
-          Text(
-            'Contact Me',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Colors.blueGrey.shade700,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double screenWidth = constraints.maxWidth;
+
+        // Adjust padding based on screen width
+        double padding = screenWidth < 600 ? 16 : 100;
+        double iconSize = screenWidth < 600 ? 50 : 60; // Dynamic icon size
+        double fontSize = screenWidth < 600 ? 12 : 14; // Dynamic font size for labels
+        double headerFontSize = screenWidth < 600 ? 22 : 28; // Dynamic header font size
+
+        return Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFFE8F0FF), Color(0xFFE8F0FF)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
           ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _buildContactIcon(
-                icon: Icons.code,
-                label: 'GitHub',
-                onTap: () => _launchURL('https://github.com'),
+              SizedBox(height: 40),
+              Text(
+                'Contact Me',
+                style: TextStyle(
+                  fontSize: headerFontSize,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueGrey.shade700,
+                ),
               ),
-              _buildContactIcon(
-                icon: Icons.business_center,
-                label: 'LinkedIn',
-                onTap: () => _launchURL('https://www.linkedin.com/in/danny-putra-pertama/'),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildContactIcon(
+                    icon: Icons.code,
+                    label: 'GitHub',
+                    onTap: () => _launchURL('https://github.com'),
+                    iconSize: iconSize,
+                    fontSize: fontSize,
+                  ),
+                  SizedBox(width: screenWidth < 600 ? 16 : 50), // Adjust spacing for small screens
+                  _buildContactIcon(
+                    icon: Icons.business_center,
+                    label: 'LinkedIn',
+                    onTap: () => _launchURL('https://www.linkedin.com/in/danny-putra-pertama/'),
+                    iconSize: iconSize,
+                    fontSize: fontSize,
+                  ),
+                ],
               ),
+              SizedBox(height: 50),
+              // Uncomment if you want to add a custom wave background
+              // CustomPaint(
+              //   size: Size(double.infinity, 100),
+              //   painter: SoftWavePainter(),
+              // ),
             ],
           ),
-          SizedBox(height: 50),
-          // CustomPaint(
-          //   size: Size(double.infinity, 100),
-          //   painter: SoftWavePainter(),
-          // ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -55,14 +73,16 @@ class ContactMeSection extends StatelessWidget {
     required IconData icon,
     required String label,
     required VoidCallback onTap,
+    required double iconSize,
+    required double fontSize,
   }) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
         children: [
           Container(
-            height: 60,
-            width: 60,
+            height: iconSize,
+            width: iconSize,
             decoration: BoxDecoration(
               color: Color(0xFFE8F0FF),
               shape: BoxShape.circle,
@@ -77,7 +97,7 @@ class ContactMeSection extends StatelessWidget {
             ),
             child: Icon(
               icon,
-              size: 30,
+              size: iconSize * 0.6, // Adjust icon size proportionally
               color: Colors.blueAccent,
             ),
           ),
@@ -85,7 +105,7 @@ class ContactMeSection extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: fontSize,
               color: Colors.blueGrey.shade700,
             ),
           ),
@@ -94,7 +114,7 @@ class ContactMeSection extends StatelessWidget {
     );
   }
 
- Future<void> _launchURL(String url) async {
+  Future<void> _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
 
     if (await canLaunchUrl(uri)) {
