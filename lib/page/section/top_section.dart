@@ -54,16 +54,16 @@ class _TopSectionState extends State<TopSection> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 600; // Mobile check
+    final isMobile = screenWidth < 700; // Mobile check
     final textTheme = Theme.of(context).textTheme;
 
-    return FadeTransition(
+     return FadeTransition(
       opacity: _fadeAnimation,
       child: SlideTransition(
         position: _slideAnimation,
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
+         child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
@@ -82,113 +82,130 @@ class _TopSectionState extends State<TopSection> with SingleTickerProviderStateM
               children: [
                 // Layout based on screen size (Mobile vs Desktop)
                 if (isMobile) ...[
-               
-                  Stack(
-                    children: [
-                      Column(
-                        children: [
-                                Positioned(
-                        right: 10, 
-                        bottom: 0,
-                        child: Container(
-                          height: 120,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 4,
-                            ),
-                          ),
-                          child: ClipOval(
-                            child: Image.asset(
-                              'lib/assets/photo.png',
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                developer.log('Error loading profile image: $error');
-                                return Container(
-                                  color: Colors.grey[300],
-                                  child: const Center(
-                                    child: Icon(Icons.error, color: Colors.red),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                          Text(
-                            'Hi!',
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          RichText(
-                            text: TextSpan(
+                  SafeArea(
+                    child: Stack(
+                      alignment: Alignment.topCenter, // Tambahkan alignment untuk Stack
+                      children: [
+                        // Konten utama Column
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center, // Pusatkan teks untuk mobile
+                          children: [
+                            SizedBox(height: 32,),
+                            const Text(
+                              'Hi!',
                               style: TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                                color: Colors.black, // Tambahkan warna jika tidak default
                               ),
-                              children: [
-                                const TextSpan(text: "I'm Danny Putra Pertama\na "),
-                                TextSpan(
-                                  text: 'Mobile Developer',
-                                  style: TextStyle(color: Colors.blue),
+                            ),
+                            const SizedBox(height: 16),
+                            RichText(
+                              textAlign: TextAlign.center, // Pusatkan RichText
+                              text: const TextSpan(
+                                style: TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
                                 ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          Text(
-                            "Hi, I'm Danny, a mobile developer from Bandung, Indonesia.",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                          const SizedBox(height: 32),
-
-
-                          OutlinedButton(
-                            onPressed: () async {
-                              final Uri url = Uri.parse(
-                                  'https://drive.google.com/uc?export=download&id=1AxEzShGKp-qPG0swEaqPxDlQZ0IhHG4m');
-                              if (await canLaunchUrl(url)) {
-                                await launchUrl(url);
-                              } else {
-                                throw 'Could not launch $url';
-                              }
-                            },
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 32,
-                                vertical: 16,
+                                children: [
+                                  TextSpan(text: "I'm Danny Putra Pertama\na "),
+                                  TextSpan(
+                                    text: 'Mobile Developer',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
+                                ],
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              side: BorderSide(color: Colors.grey[300]!),
                             ),
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text('Download CV'),
-                                SizedBox(width: 8),
-                                Icon(Icons.download, size: 20),
-                              ],
+                            const SizedBox(height: 24),
+                            Text(
+                              "Hi, I'm Danny, a mobile developer from Bandung, Indonesia.",
+                              textAlign: TextAlign.center, // Pusatkan teks
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                            const SizedBox(height: 32),
+                            OutlinedButton(
+                              onPressed: () async {
+                                final Uri url = Uri.parse(
+                                    'https://drive.google.com/uc?export=download&id=1AxEzShGKp-qPG0swEaqPxDlQZ0IhHG4m');
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                } else {
+                                  // Gunakan dialog atau SnackBar sebagai ganti throw
+                                  // Contoh: ScaffoldMessenger.of(context).showSnackBar(
+                                  //   const SnackBar(content: Text('Could not launch URL')),
+                                  // );
+                                  developer.log('Could not launch $url');
+                                }
+                              },
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 32,
+                                  vertical: 16,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                side: BorderSide(color: Colors.grey[300]!),
+                              ),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('Download CV'),
+                                  SizedBox(width: 8),
+                                  Icon(Icons.download, size: 20),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 20), // Tambahkan spasi di bawah button sebelum gambar
+                          ],
+                        ),
+                        // Gambar profil di-posisikan sebagai anak langsung dari Stack
+                        Positioned(
+                          // Sesuaikan positioning jika diperlukan, mungkin di atas kolom teks
+                          // Untuk membuat gambar tidak tumpang tindih dengan teks, Anda perlu
+                          // menyesuaikan posisi atau memastikan Column memiliki padding/margin yang cukup
+                          // atau posisikan gambar di luar area yang ditempati Column.
+                          // Untuk contoh, saya posisikan di atas Column, agak ke tengah atas.
+                          top: 20, // Atau sesuaikan
+                          child: Transform.translate(
+                            offset: Offset(0, -50), // Geser ke atas agar tidak tumpang tindih dengan Hi!
+                            child: Container(
+                              height: 120,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 4,
+                                ),
+                              ),
+                              child: ClipOval(
+                                child: Image.asset(
+                                  'lib/assets/photo.png',
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    developer.log('Error loading profile image: $error');
+                                    return Container(
+                                      color: Colors.grey[300],
+                                      child: const Center(
+                                        child: Icon(Icons.error, color: Colors.red),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
                           ),
-                        ],
-                      ),
-               
-                
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ] else ...[
-
+                  // Bagian untuk desktop/layar besar (tidak ada perubahan struktural di sini)
                   Row(
                     children: [
                       Expanded(
@@ -196,23 +213,24 @@ class _TopSectionState extends State<TopSection> with SingleTickerProviderStateM
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'Hi!',
                               style: TextStyle(
                                 fontSize: 48,
                                 fontWeight: FontWeight.bold,
+                                color: Colors.black,
                               ),
                             ),
                             const SizedBox(height: 16),
                             RichText(
-                              text: TextSpan(
+                              text: const TextSpan(
                                 style: TextStyle(
                                   fontSize: 48,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
                                 ),
                                 children: [
-                                  const TextSpan(text: "I'm Danny Putra Pertama\na "),
+                                  TextSpan(text: "I'm Danny Putra Pertama\na "),
                                   TextSpan(
                                     text: 'Mobile Developer',
                                     style: TextStyle(color: Colors.blue),
@@ -238,7 +256,8 @@ class _TopSectionState extends State<TopSection> with SingleTickerProviderStateM
                                 if (await canLaunchUrl(url)) {
                                   await launchUrl(url);
                                 } else {
-                                  throw 'Could not launch $url';
+                                  // Gunakan dialog atau SnackBar sebagai ganti throw
+                                  developer.log('Could not launch $url');
                                 }
                               },
                               style: OutlinedButton.styleFrom(
@@ -304,6 +323,8 @@ class _TopSectionState extends State<TopSection> with SingleTickerProviderStateM
     );
   }
 
+  // Metode _buildNavItem tidak terkait langsung dengan HeroSection,
+  // tetapi disertakan jika itu adalah bagian dari class yang sama.
   Widget _buildNavItem(String title, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
@@ -320,4 +341,6 @@ class _TopSectionState extends State<TopSection> with SingleTickerProviderStateM
       ),
     );
   }
+
+
 }
