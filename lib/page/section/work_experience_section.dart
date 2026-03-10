@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
+import 'package:portfolio/theme/app_theme.dart';
 
 class WorkExperienceSection extends StatefulWidget {
   const WorkExperienceSection({Key? key}) : super(key: key);
@@ -8,11 +8,9 @@ class WorkExperienceSection extends StatefulWidget {
   _WorkExperienceSectionState createState() => _WorkExperienceSectionState();
 }
 
-class _WorkExperienceSectionState extends State<WorkExperienceSection> with SingleTickerProviderStateMixin {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
+class _WorkExperienceSectionState extends State<WorkExperienceSection>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  late Animation<double> _animation;
 
   final List<Map<String, String>> _workExperiences = [
     {
@@ -22,300 +20,344 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> with Sing
       'location': 'Bandung, Indonesia',
       'projectLogo': 'lib/assets/diarium.png',
       'projectName': 'Diarium',
-      'projectUrl': 'https://www.project1.com',
-      'jobTitle': 'Flutter',
+      'jobTitle': 'Flutter Developer',
       'seniority': 'Senior',
-      'imagePath': 'lib/assets/flutter.png'
+      'role':
+          'Built and maintained the Diarium HRIS super app serving 20,000+ active users.',
     },
     {
       'companyLogo': 'lib/assets/telkomindonesia.png',
       'companyName': 'PT Telkom Indonesia',
-      'duration': 'Aug 2023 - Dec 2022',
+      'duration': 'Aug 2022 - Dec 2022',
       'location': 'Bandung, Indonesia',
       'projectLogo': 'lib/assets/eventeer.png',
       'projectName': 'Eventeer',
-      'projectUrl': 'https://www.project2.com',
-      'jobTitle': 'React Native',
+      'jobTitle': 'React Native Developer',
       'seniority': 'Junior',
-      'imagePath': 'lib/assets/react.png'
+      'role':
+          'Developed the event management app with QR check-in and real-time updates.',
     },
     {
       'companyLogo': 'lib/assets/swalogo.png',
       'companyName': 'PT Swamedia Informatika',
-      'duration': 'March 2023 - Present',
+      'duration': 'Aug 2024 - Present',
       'location': 'Bandung, Indonesia',
       'projectLogo': 'lib/assets/peoplehub.png',
       'projectName': 'People Hub',
-      'projectUrl': 'https://www.project3.com',
-      'jobTitle': 'Flutter',
-      'seniority': 'Junior',
-      'imagePath': 'lib/assets/flutter.png'
+      'jobTitle': 'Flutter Developer',
+      'seniority': 'Mid',
+      'role':
+          'Building the employee directory platform with role-based access and real-time data.',
     },
   ];
 
   @override
   void initState() {
     super.initState();
-
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 1000),
       vsync: this,
     )..forward();
-
-    _animation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeOutQuad,
-      ),
-    );
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
     _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double screenWidth = constraints.maxWidth;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 700;
 
-        // Adjust image size based on screen width
-        double imageSize = screenWidth * 0.15;
-        imageSize = imageSize.clamp(120, 200);  // Ensure the size stays within a reasonable range
-        const double containerHeight = 460;
+    return Container(
+      width: double.infinity,
+      color: AppColors.bgPrimary,
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 24 : screenWidth * 0.08,
+        vertical: 80,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SectionTitle(
+            title: 'Work Experience',
+            subtitle: 'My professional journey so far',
+          ),
+          const SizedBox(height: 48),
 
-        return Container(
-          color: Colors.white,
-          padding: const EdgeInsets.only(bottom: 80),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: screenWidth * 0.1), // Dynamic padding based on screen width
-                child: Text(
-                  'Work Experiences',
-                  style: TextStyle(
-                    fontSize: screenWidth < 600 ? 22 : 28, // Adjust font size for mobile and larger screens
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+          // Timeline
+          ...List.generate(_workExperiences.length, (index) {
+            final experience = _workExperiences[index];
+            final isLast = index == _workExperiences.length - 1;
+            final delay = index * 0.2;
+
+            return _TimelineEntry(
+              experience: experience,
+              isLast: isLast,
+              isMobile: isMobile,
+              animation: Tween<double>(begin: 0, end: 1).animate(
+                CurvedAnimation(
+                  parent: _animationController,
+                  curve: Interval(
+                    delay.clamp(0.0, 0.6),
+                    (delay + 0.4).clamp(0.4, 1.0),
+                    curve: Curves.easeOutCubic,
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              FadeTransition(
-                opacity: _animation,
-                child: SlideTransition(
-                  position: Tween<Offset>(
-                    begin: const Offset(0, 0.2),
-                    end: Offset.zero,
-                  ).animate(_animationController),
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onHorizontalDragUpdate: (details) {
-                          double dragSensitivity = 2; // Adjust sensitivity for drag movement
-                          _pageController.jumpTo(_pageController.offset - details.delta.dx * dragSensitivity);
-                        },
-                        child: Container(
-                          height: containerHeight,
-                          child: PageView.builder(
-                            controller: _pageController,
-                            onPageChanged: (index) {
-                              setState(() {
-                                _currentPage = index;
-                              });
-                            },
-                            itemCount: _workExperiences.length,
-                            itemBuilder: (context, index) {
-                              final experience = _workExperiences[index];
-                              return Padding(
-                                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05), // Dynamic padding
-                                child: Container(
-                                  height: containerHeight,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF8F9FD),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(child: _buildWorkExperienceItem(
-                                          title: "The company",
-                                          content: _buildCompanyContent(experience, imageSize),
-                                        )),
-                                        const Icon(
-                                          Icons.arrow_right_alt,
-                                          size: 32,
-                                          color: Colors.blueAccent,
-                                        ),
-                                        Expanded(child: _buildWorkExperienceItem(
-                                          title: "The project",
-                                          content: _buildProjectContent(experience, imageSize),
-                                        )),
-                                        const Icon(
-                                          Icons.arrow_right_alt,
-                                          size: 32,
-                                          color: Colors.blueAccent,
-                                        ),
-                                        Expanded(child: _buildWorkExperienceItem(
-                                          title: "Mobile Developer",
-                                          content: _buildJobContent(experience, imageSize),
-                                        )),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                          _workExperiences.length,
-                              (index) => GestureDetector(
-                            onTap: () {
-                              _pageController.animateToPage(
-                                index,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            },
-                            child: Container(
-                              width: 10,
-                              height: 10,
-                              margin: const EdgeInsets.symmetric(horizontal: 4),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: _currentPage == index
-                                    ? Colors.blueAccent
-                                    : Colors.grey[300],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+            );
+          }),
+        ],
+      ),
+    );
+  }
+}
+
+class _TimelineEntry extends StatelessWidget {
+  final Map<String, String> experience;
+  final bool isLast;
+  final bool isMobile;
+  final Animation<double> animation;
+
+  const _TimelineEntry({
+    required this.experience,
+    required this.isLast,
+    required this.isMobile,
+    required this.animation,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (context, child) {
+        return Opacity(
+          opacity: animation.value,
+          child: Transform.translate(
+            offset: Offset(40 * (1 - animation.value), 0),
+            child: child,
           ),
         );
       },
-    );
-  }
-
-  Widget _buildCompanyContent(Map<String, String> experience, double imageSize) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        experience['companyLogo'] != null
-            ? Container(
-                width: imageSize,
-                height: imageSize,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(experience['companyLogo']!),
-                    fit: BoxFit.contain,
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Timeline line + dot
+            SizedBox(
+              width: 40,
+              child: Column(
+                children: [
+                  // Glowing dot
+                  Container(
+                    width: 16,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: AppColors.gradientPrimary,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.accentCyan.withOpacity(0.4),
+                          blurRadius: 12,
+                        ),
+                      ],
+                    ),
                   ),
+                  // Line
+                  if (!isLast)
+                    Expanded(
+                      child: Container(
+                        width: 2,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              AppColors.accentCyan.withOpacity(0.3),
+                              AppColors.accentPurple.withOpacity(0.1),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 20),
+            // Card content
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: isLast ? 0 : 32),
+                child: GlassCard(
+                  padding: EdgeInsets.all(isMobile ? 16 : 24),
+                  child:
+                      isMobile ? _buildMobileContent() : _buildDesktopContent(),
                 ),
-              )
-            : Container(width: imageSize, height: imageSize),
-        const SizedBox(height: 8),
-        Text(
-          experience['companyName'] ?? 'Unknown',
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
         ),
-        Text(
-          experience['duration'] ?? 'N/A',
-          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-        ),
-        Text(
-          experience['location'] ?? 'Unknown',
-          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-        ),
-      ],
+      ),
     );
   }
 
-  Widget _buildProjectContent(Map<String, String> experience, double imageSize) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildDesktopContent() {
+    return Row(
       children: [
-        experience['projectLogo'] != null
-            ? Container(
-                width: imageSize,
-                height: imageSize,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(experience['projectLogo']!),
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              )
-            : Container(width: imageSize, height: imageSize),
-        const SizedBox(height: 8),
-        Text(
-          experience['projectName'] ?? 'Unknown',
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildJobContent(Map<String, String> experience, double imageSize) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        experience['imagePath'] != null
-            ? Container(
-                width: imageSize,
-                height: imageSize,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(experience['imagePath']!),
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              )
-            : Container(width: imageSize, height: imageSize),
-        const SizedBox(height: 8),
-        Text(
-          experience['jobTitle'] ?? 'Unknown',
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildWorkExperienceItem({
-    required String title,
-    required Widget content,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.grey[800],
+        // Company logo
+        Container(
+          width: 60,
+          height: 60,
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.white.withOpacity(0.05),
+          ),
+          child: Image.asset(
+            experience['companyLogo']!,
+            fit: BoxFit.contain,
           ),
         ),
-        const SizedBox(height: 8),
-        content,
+        const SizedBox(width: 20),
+        // Info
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                experience['jobTitle'] ?? '',
+                style: AppTextStyles.titleLarge,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '${experience['companyName']} • ${experience['projectName']}',
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: AppColors.accentCyan,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                experience['role'] ?? '',
+                style: AppTextStyles.bodyMedium,
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 16),
+        // Duration & Location
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: AppColors.accentCyan.withOpacity(0.1),
+                border: Border.all(
+                  color: AppColors.accentCyan.withOpacity(0.2),
+                ),
+              ),
+              child: Text(
+                experience['duration'] ?? '',
+                style: AppTextStyles.labelSmall.copyWith(
+                  color: AppColors.accentCyan,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.location_on_outlined,
+                    size: 14, color: AppColors.textMuted),
+                const SizedBox(width: 4),
+                Text(
+                  experience['location'] ?? '',
+                  style: AppTextStyles.labelSmall,
+                ),
+              ],
+            ),
+          ],
+        ),
       ],
+    );
+  }
+
+  Widget _buildMobileContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white.withOpacity(0.05),
+              ),
+              child: Image.asset(
+                experience['companyLogo']!,
+                fit: BoxFit.contain,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    experience['jobTitle'] ?? '',
+                    style: AppTextStyles.titleMedium,
+                  ),
+                  Text(
+                    experience['companyName'] ?? '',
+                    style: AppTextStyles.labelSmall.copyWith(
+                      color: AppColors.accentCyan,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Text(experience['role'] ?? '', style: AppTextStyles.bodyMedium),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            _TagChip(text: experience['duration'] ?? ''),
+            _TagChip(text: experience['location'] ?? ''),
+            _TagChip(text: experience['projectName'] ?? ''),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _TagChip extends StatelessWidget {
+  final String text;
+  const _TagChip({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: AppColors.glassFill,
+        border: Border.all(color: AppColors.glassBorder),
+      ),
+      child: Text(
+        text,
+        style: AppTextStyles.labelSmall.copyWith(fontSize: 11),
+      ),
     );
   }
 }

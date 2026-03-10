@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/page/projects/detail_projects.dart';
-import 'package:portfolio/page/projects/list_projects.dart';
+import 'package:portfolio/theme/app_theme.dart';
 
 import 'page/homepage.dart';
 
@@ -14,20 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
-      routes: {
-        '/': (context) => HomePage(),
-        '/list-projects': (context) => const ListProjects(),
-        '/project-detail': (context) => const ProjectDetailPage(),
-
-      },
       debugShowCheckedModeBanner: false,
-      title: 'Portfolio Danny Putra Pertama',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-
+      title: 'Danny Putra Pertama — Mobile Developer',
+      theme: appTheme(),
+      home: const HomePage(),
     );
   }
 }

@@ -1,0 +1,1 @@
+ /Users/nn/Library/Mobile\ Documents/com~apple~CloudDocs/portfolio/portfolio/build/36d2a865f77fc3a85391949530deb588/dart_build_result.json:  /Users/nn/Library/Mobile\ Documents/com~apple~CloudDocs/portfolio/portfolio/.dart_tool/package_config.json /Users/nn/Library/Mobile\ Documents/com~apple~CloudDocs/portfolio/portfolio/pubspec.yaml /Users/nn/flutter/bin/cache/dart-sdk/version

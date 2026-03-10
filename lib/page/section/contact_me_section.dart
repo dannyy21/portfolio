@@ -1,149 +1,223 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/theme/app_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactMeSection extends StatelessWidget {
+  const ContactMeSection({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double screenWidth = constraints.maxWidth;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 700;
 
-        // Adjust padding based on screen width
-        double padding = screenWidth < 600 ? 16 : 100;
-        double iconSize = screenWidth < 600 ? 50 : 60; // Dynamic icon size
-        double fontSize = screenWidth < 600 ? 12 : 14; // Dynamic font size for labels
-        double headerFontSize = screenWidth < 600 ? 22 : 28; // Dynamic header font size
-
-        return Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFE8F0FF), Color(0xFFE8F0FF)],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 40),
-              Text(
-                'Contact Me',
-                style: TextStyle(
-                  fontSize: headerFontSize,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blueGrey.shade700,
-                ),
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildContactIcon(
-                    icon: Icons.code,
-                    label: 'GitHub',
-                    onTap: () => _launchURL('https://github.com'),
-                    iconSize: iconSize,
-                    fontSize: fontSize,
-                  ),
-                  SizedBox(width: screenWidth < 600 ? 16 : 50), // Adjust spacing for small screens
-                  _buildContactIcon(
-                    icon: Icons.business_center,
-                    label: 'LinkedIn',
-                    onTap: () => _launchURL('https://www.linkedin.com/in/danny-putra-pertama/'),
-                    iconSize: iconSize,
-                    fontSize: fontSize,
-                  ),
-                ],
-              ),
-              SizedBox(height: 50),
-              // Uncomment if you want to add a custom wave background
-              // CustomPaint(
-              //   size: Size(double.infinity, 100),
-              //   painter: SoftWavePainter(),
-              // ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildContactIcon({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-    required double iconSize,
-    required double fontSize,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            AppColors.bgSecondary,
+            AppColors.bgPrimary,
+          ],
+        ),
+      ),
       child: Column(
         children: [
-          Container(
-            height: iconSize,
-            width: iconSize,
-            decoration: BoxDecoration(
-              color: Color(0xFFE8F0FF),
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.blueGrey.shade100,
-                  blurRadius: 6,
-                  spreadRadius: 3,
-                  offset: Offset(0, 3),
+          // CTA Section
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: isMobile ? 24 : screenWidth * 0.15,
+              vertical: 80,
+            ),
+            child: Column(
+              children: [
+                // Gradient accent line
+                Container(
+                  width: 60,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    gradient: AppColors.gradientPrimary,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                const SizedBox(height: 32),
+                GradientText(
+                  text: "Let's Work Together",
+                  style: isMobile
+                      ? AppTextStyles.headlineLarge
+                      : AppTextStyles.displayMedium,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  "Have a project in mind? Let's build something amazing together.\nI'm always open to new opportunities and collaborations.",
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.bodyLarge,
+                ),
+                const SizedBox(height: 40),
+
+                // Action buttons
+                Wrap(
+                  spacing: 16,
+                  runSpacing: 12,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    GradientButton(
+                      text: 'Send me an email',
+                      icon: Icons.arrow_outward_rounded,
+                      onPressed: () async {
+                        final Uri gmailUri = Uri.parse(
+                          'https://mail.google.com/mail/?view=cm&fs=1&to=dannyptr21@gmail.com&su=Hello Danny&body=I would like to discuss...',
+                        );
+                        if (await canLaunchUrl(gmailUri)) {
+                          await launchUrl(gmailUri);
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 40),
+
+                // Social links
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _SocialLink(
+                      icon: Icons.code_rounded,
+                      label: 'GitHub',
+                      url: 'https://github.com',
+                    ),
+                    const SizedBox(width: 32),
+                    _SocialLink(
+                      icon: Icons.business_center_rounded,
+                      label: 'LinkedIn',
+                      url: 'https://www.linkedin.com/in/danny-putra-pertama/',
+                    ),
+                    const SizedBox(width: 32),
+                    _SocialLink(
+                      icon: Icons.email_rounded,
+                      label: 'Email',
+                      url: 'mailto:dannyptr21@gmail.com',
+                    ),
+                  ],
                 ),
               ],
             ),
-            child: Icon(
-              icon,
-              size: iconSize * 0.6, // Adjust icon size proportionally
-              color: Colors.blueAccent,
-            ),
           ),
-          SizedBox(height: 10),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: fontSize,
-              color: Colors.blueGrey.shade700,
+
+          // Footer
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: AppColors.glassBorder,
+                  width: 1,
+                ),
+              ),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  'Designed & Built by Danny Putra Pertama',
+                  style: AppTextStyles.labelSmall,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '© 2025 All Rights Reserved',
+                  style: AppTextStyles.labelSmall.copyWith(
+                    color: AppColors.textMuted.withOpacity(0.6),
+                    fontSize: 11,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
           ),
         ],
       ),
     );
   }
-
-  Future<void> _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
-
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 }
 
-class SoftWavePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()..color = Color(0xFFE8F0FF).withOpacity(0.6);
+class _SocialLink extends StatefulWidget {
+  final IconData icon;
+  final String label;
+  final String url;
 
-    Path path = Path();
-    path.lineTo(0, size.height - 50);
-    path.quadraticBezierTo(
-      size.width * 0.5, size.height + 30, // Puncak gelombang
-      size.width, size.height - 50,
+  const _SocialLink({
+    required this.icon,
+    required this.label,
+    required this.url,
+  });
+
+  @override
+  State<_SocialLink> createState() => _SocialLinkState();
+}
+
+class _SocialLinkState extends State<_SocialLink> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: () async {
+          final Uri uri = Uri.parse(widget.url);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          }
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          child: Column(
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: _isHovered
+                        ? AppColors.accentCyan.withOpacity(0.5)
+                        : AppColors.glassBorder,
+                  ),
+                  color: _isHovered
+                      ? AppColors.accentCyan.withOpacity(0.1)
+                      : Colors.transparent,
+                  boxShadow: _isHovered
+                      ? [
+                          BoxShadow(
+                            color: AppColors.accentCyan.withOpacity(0.2),
+                            blurRadius: 16,
+                          ),
+                        ]
+                      : [],
+                ),
+                child: Icon(
+                  widget.icon,
+                  size: 22,
+                  color:
+                      _isHovered ? AppColors.accentCyan : AppColors.textMuted,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                widget.label,
+                style: AppTextStyles.labelSmall.copyWith(
+                  color:
+                      _isHovered ? AppColors.accentCyan : AppColors.textMuted,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
-    path.lineTo(size.width, 0);
-    path.close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
   }
 }
