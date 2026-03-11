@@ -192,16 +192,7 @@ class _GlassCardState extends State<GlassCard> {
                   : AppColors.glassBorder,
               width: 1,
             ),
-            boxShadow: _isHovered
-                ? [
-                    BoxShadow(
-                      color: (widget.glowColor ?? AppColors.accentCyan)
-                          .withOpacity(0.1),
-                      blurRadius: 30,
-                      spreadRadius: -5,
-                    ),
-                  ]
-                : [],
+            boxShadow: const [], // Removed heavy shadow for web performance
           ),
           transform: _isHovered
               ? (Matrix4.identity()..translate(0.0, -4.0))

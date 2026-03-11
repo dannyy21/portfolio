@@ -6,34 +6,51 @@ class PersonalProjectsSection extends StatelessWidget {
 
   static final List<Map<String, dynamic>> _projects = [
     {
-      'title': 'UMKM App',
+      'title': 'EazyTask Kiosk',
       'description':
-          'A clean-architecture mobile app to help small businesses manage operations — product listing, inventory, and order tracking.',
-      'technologies': [
-        'Flutter',
-        'Clean Architecture',
-        'GetIt',
-        'Supabase',
-        'Firebase',
-        'Deeplink'
-      ],
-      'icon': Icons.store_rounded,
+          'An attendance kiosk application for Australian companies, enabling employees to check in and out through dedicated on-site devices for streamlined workforce tracking.',
+      'technologies': ['Flutter', 'APIs', 'Offline Sync'],
+      'icon': Icons.tablet_mac_rounded,
       'color': const Color(0xFF00E5A0),
     },
     {
-      'title': 'Spending Tracker',
+      'title': 'Qilife Scan',
       'description':
-          'A Kotlin Jetpack Compose app for budget management — transaction history, budget tracking, and Material You design.',
-      'technologies': ['Kotlin', 'Jetpack Compose', 'Room', 'MVVM'],
-      'icon': Icons.account_balance_wallet_rounded,
+          'A mobile application designed to analyze and detect Qi energy through scanning technology and customized questionnaires.',
+      'technologies': ['FlutterFlow', 'Low-Code', 'Multimedia'],
+      'icon': Icons.scanner_rounded,
       'color': const Color(0xFF7B61FF),
     },
     {
-      'title': 'Food Delivery App',
+      'title': 'Bas Recovery',
       'description':
-          'A Kotlin food delivery app with menu browsing, cart, and order confirmation — MVVM architecture with Retrofit.',
-      'technologies': ['Kotlin', 'MVVM', 'Retrofit', 'XML'],
-      'icon': Icons.fastfood_rounded,
+          'A UAE-based automotive service application connecting users with vehicle recovery and workshop roadside assistance services.',
+      'technologies': ['Flutter', 'React Native', 'Node.js'],
+      'icon': Icons.car_crash_rounded,
+      'color': const Color(0xFFFF6B9D),
+    },
+    {
+      'title': 'Fitters',
+      'description':
+          'A Canada-based fitness companion application designed to help users connect with fitness partners and track shared workout activities.',
+      'technologies': ['Flutter', 'React Native'],
+      'icon': Icons.fitness_center_rounded,
+      'color': const Color(0xFF00E5A0),
+    },
+    {
+      'title': 'Danone Scan App',
+      'description':
+          'A native Android smart gallon scanner demo app designed to identify and validate water gallons using computer vision.',
+      'technologies': ['Kotlin', 'Android', 'Computer Vision'],
+      'icon': Icons.water_drop_rounded,
+      'color': const Color(0xFF7B61FF),
+    },
+    {
+      'title': 'My Haayd App',
+      'description':
+          'A mobile application built with React Native focusing on pixel-perfect UI slicing, reusable components, and responsive cross-platform layout.',
+      'technologies': ['React Native', 'Figma', 'UI/UX'],
+      'icon': Icons.smartphone_rounded,
       'color': const Color(0xFFFF6B9D),
     },
   ];
@@ -56,8 +73,8 @@ class PersonalProjectsSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SectionTitle(
-            title: 'Personal Projects',
-            subtitle: 'Side projects built for learning & exploration',
+            title: 'Freelance & Other Projects',
+            subtitle: 'Freelance client work and diverse portfolio projects',
           ),
           const SizedBox(height: 32),
           GridView.builder(

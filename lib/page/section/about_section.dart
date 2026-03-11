@@ -69,9 +69,9 @@ class AboutSection extends StatelessWidget {
   Widget _buildStats() {
     final stats = [
       {'number': '3+', 'label': 'Years\nExperience'},
-      {'number': '5+', 'label': 'Projects\nDelivered'},
-      {'number': '20K+', 'label': 'Active\nUsers Served'},
-      {'number': '2', 'label': 'Companies\nWorked With'},
+      {'number': '10+', 'label': 'Projects\nDelivered'},
+      {'number': '1M+', 'label': 'Active\nUsers Served'},
+      {'number': '5+', 'label': 'Companies\nWorked With'},
     ];
 
     return Column(

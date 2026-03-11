@@ -98,6 +98,59 @@ class FeaturedProjectsSection extends StatelessWidget {
       ],
       'gallery': <String>[],
     },
+    {
+      'title': 'Ferizy',
+      'subtitle': 'Ferry Ticketing App',
+      'company': 'PT ASDP Indonesia',
+      'duration': 'Nov 2023 — Present',
+      'role': 'Mobile Developer',
+      'image': 'lib/assets/placeholder.png',
+      'description':
+          'A ferry ticketing mobile application that enables users to book ferry tickets, manage travel schedules, and access digital boarding services for seamless sea transportation.',
+      'technologies': ['Flutter', 'Kotlin', 'Swift', 'MethodChannel'],
+      'highlights': [
+        'Contributed to the revamp and modernization of the application, improving overall UX and usability',
+        'Built a reusable Flutter plugin with native Kotlin and Swift implementations via MethodChannel',
+        'Distributed plugins as an Android library and iOS CocoaPods module for cross-application integration',
+        'Led a team of mobile developers and managed publishing to Google Play Store and App Store',
+      ],
+      'gallery': <String>[],
+    },
+    {
+      'title': 'EazyTask',
+      'subtitle': 'Workforce Management',
+      'company': 'Upwork (Freelance)',
+      'duration': 'Jan 2023 — Present',
+      'role': 'Mobile Developer',
+      'image': 'lib/assets/placeholder.png',
+      'description':
+          'An innovative and user-friendly task management application designed to help users organize their daily work and tasks more efficiently, both individually and in a team.',
+      'technologies': ['Flutter', 'Mobile App', 'Figma', 'Offline Sync'],
+      'highlights': [
+        'Sliced the UI from Figma into pixel-perfect responsive Flutter code',
+        'Implemented an offline feature that allows users to access and manage tasks without an internet connection',
+        'Redesigned several parts of the interface to enhance user experience (UX) and modern aesthetics',
+        'Integrated APIs to ensure the application communicates efficiently with the back-end',
+      ],
+      'gallery': <String>[],
+    },
+    {
+      'title': 'OptimosHR',
+      'subtitle': 'Internal HR App',
+      'company': 'PT Swamedia Informatika',
+      'duration': 'Aug 2024 — Present',
+      'role': 'Mobile Developer',
+      'image': 'lib/assets/placeholder.png',
+      'description':
+          'A mobile HR application developed for Swamedia to streamline employee management processes including attendance, employee data management, and internal HR operations.',
+      'technologies': ['Flutter', 'HRIS', 'API Integration'],
+      'highlights': [
+        'Created Application HR for internal Swamedia called OptimosHr managing more than 100+ employees',
+        'Implemented attendance and approval workflows that streamlined internal HR processes',
+        'Reduced manual administrative tasks through automated mobile solutions',
+      ],
+      'gallery': <String>[],
+    },
   ];
 
   @override
@@ -391,7 +444,7 @@ class _GalleryCarouselState extends State<_GalleryCarousel> {
                       borderRadius: BorderRadius.circular(12),
                       child: Image.asset(
                         widget.images[index],
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                         errorBuilder: (_, __, ___) => Container(
                           color: AppColors.bgCard,
                           child: const Center(

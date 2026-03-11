@@ -128,14 +128,14 @@ class _TopSectionState extends State<TopSection> with TickerProviderStateMixin {
           decoration: const BoxDecoration(gradient: AppColors.gradientHero),
           child: Stack(
             children: [
-              // Particles
-              AnimatedBuilder(
-                animation: _particleController,
-                builder: (context, _) => CustomPaint(
-                  size: Size(w, h * 0.9),
-                  painter: _ParticlePainter(_particleController.value),
-                ),
-              ),
+              // Particles (Disabled for web performance)
+              // AnimatedBuilder(
+              //   animation: _particleController,
+              //   builder: (context, _) => CustomPaint(
+              //     size: Size(w, h * 0.9),
+              //     painter: _ParticlePainter(_particleController.value),
+              //   ),
+              // ),
               // Gradient orbs
               Positioned(
                 top: -100,
@@ -334,13 +334,19 @@ class _TopSectionState extends State<TopSection> with TickerProviderStateMixin {
             _SocialIcon(
                 icon: Icons.code_rounded,
                 tooltip: 'GitHub',
-                onTap: () => _launch('https://github.com')),
+                onTap: () => _launch('https://github.com/dannyy21')),
             const SizedBox(width: 16),
             _SocialIcon(
                 icon: Icons.business_center_rounded,
                 tooltip: 'LinkedIn',
                 onTap: () => _launch(
                     'https://www.linkedin.com/in/danny-putra-pertama/')),
+            const SizedBox(width: 16),
+            _SocialIcon(
+                icon: Icons.work_outline_rounded,
+                tooltip: 'Upwork',
+                onTap: () => _launch(
+                    'https://www.upwork.com/freelancers/~01f5fb5f83710c9cba')),
             const SizedBox(width: 16),
             _SocialIcon(
                 icon: Icons.email_rounded,
@@ -386,18 +392,24 @@ class _TopSectionState extends State<TopSection> with TickerProviderStateMixin {
               decoration: const BoxDecoration(
                   shape: BoxShape.circle, color: AppColors.bgPrimary)),
           ClipOval(
-            child: Image.asset(
-              'lib/assets/photo.png',
-              fit: BoxFit.cover,
-              width: size,
-              height: size,
-              errorBuilder: (_, __, ___) => Container(
-                width: size,
-                height: size,
-                color: AppColors.bgCard,
-                child: const Center(
-                    child: Icon(Icons.person,
-                        color: AppColors.textMuted, size: 60)),
+            child: Transform.translate(
+              offset: isMobile ? const Offset(10, 0) : const Offset(15, 0),
+              child: Transform.scale(
+                scale: 1.06,
+                child: Image.asset(
+                  'lib/assets/photo.png',
+                  fit: BoxFit.cover,
+                  width: size,
+                  height: size,
+                  errorBuilder: (_, __, ___) => Container(
+                    width: size,
+                    height: size,
+                    color: AppColors.bgCard,
+                    child: const Center(
+                        child: Icon(Icons.person,
+                            color: AppColors.textMuted, size: 60)),
+                  ),
+                ),
               ),
             ),
           ),
@@ -511,28 +523,4 @@ class _SocialIconState extends State<_SocialIcon> {
       ),
     );
   }
-}
-
-// ─── Particle Painter ─────────────────────────────────────────────
-class _ParticlePainter extends CustomPainter {
-  final double v;
-  _ParticlePainter(this.v);
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = AppColors.accentCyan.withOpacity(0.06)
-      ..style = PaintingStyle.fill;
-    final r = math.Random(42);
-    for (int i = 0; i < 25; i++) {
-      final x = r.nextDouble() * size.width;
-      final baseY = r.nextDouble() * size.height;
-      final radius = r.nextDouble() * 2 + 1;
-      final speed = r.nextDouble() * 0.5 + 0.2;
-      final y = (baseY + v * size.height * speed) % size.height;
-      canvas.drawCircle(Offset(x, y), radius, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _ParticlePainter old) => old.v != v;
 }

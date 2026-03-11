@@ -14,6 +14,18 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection>
 
   final List<Map<String, String>> _workExperiences = [
     {
+      'companyLogo': 'lib/assets/placeholder.png',
+      'companyName': 'PT ASDP Indonesia',
+      'duration': 'Nov 2023 - Present',
+      'location': 'Indonesia',
+      'projectLogo': 'lib/assets/placeholder.png',
+      'projectName': 'Ferizy',
+      'jobTitle': 'Senior Mobile Developer',
+      'seniority': 'Senior',
+      'role':
+          'Contributed to the revamp and modernization of Ferizy, a national ferry ticketing application, improving overall UX and usability.',
+    },
+    {
       'companyLogo': 'lib/assets/telkomindonesia.png',
       'companyName': 'PT Telkom Indonesia',
       'duration': 'March 2023 - Aug 2024',
@@ -204,82 +216,104 @@ class _TimelineEntry extends StatelessWidget {
   }
 
   Widget _buildDesktopContent() {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Company logo
-        Container(
-          width: 60,
-          height: 60,
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: Colors.white.withOpacity(0.05),
-          ),
-          child: Image.asset(
-            experience['companyLogo']!,
-            fit: BoxFit.contain,
-          ),
-        ),
-        const SizedBox(width: 20),
-        // Info
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                experience['jobTitle'] ?? '',
-                style: AppTextStyles.titleLarge,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '${experience['companyName']} • ${experience['projectName']}',
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.accentCyan,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                experience['role'] ?? '',
-                style: AppTextStyles.bodyMedium,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 16),
-        // Duration & Location
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Company logo
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              width: 60,
+              height: 60,
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: AppColors.accentCyan.withOpacity(0.1),
-                border: Border.all(
-                  color: AppColors.accentCyan.withOpacity(0.2),
-                ),
+                borderRadius: BorderRadius.circular(12),
+                color: Colors.white.withOpacity(0.05),
               ),
-              child: Text(
-                experience['duration'] ?? '',
-                style: AppTextStyles.labelSmall.copyWith(
-                  color: AppColors.accentCyan,
-                ),
+              child: Image.asset(
+                experience['companyLogo']!,
+                fit: BoxFit.contain,
               ),
             ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.location_on_outlined,
-                    size: 14, color: AppColors.textMuted),
-                const SizedBox(width: 4),
-                Text(
-                  experience['location'] ?? '',
-                  style: AppTextStyles.labelSmall,
-                ),
-              ],
+            const SizedBox(width: 20),
+            // Info Header
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          experience['jobTitle'] ?? '',
+                          style: AppTextStyles.titleLarge,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      // Duration Pill
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: AppColors.accentCyan.withOpacity(0.1),
+                          border: Border.all(
+                            color: AppColors.accentCyan.withOpacity(0.2),
+                          ),
+                        ),
+                        child: Text(
+                          experience['duration'] ?? '',
+                          style: AppTextStyles.labelSmall.copyWith(
+                            color: AppColors.accentCyan,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          '${experience['companyName']} • ${experience['projectName']}',
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            color: AppColors.accentCyan,
+                          ),
+                        ),
+                      ),
+                      // Location
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.location_on_outlined,
+                              size: 14, color: AppColors.textMuted),
+                          const SizedBox(width: 4),
+                          Text(
+                            experience['location'] ?? '',
+                            style: AppTextStyles.labelSmall,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
+        ),
+        const SizedBox(height: 16),
+        // Role description
+        Padding(
+          padding: const EdgeInsets.only(
+              left: 80), // Aligned with text above (60 logo + 20 spacing)
+          child: Text(
+            experience['role'] ?? '',
+            style: AppTextStyles.bodyMedium,
+          ),
         ),
       ],
     );

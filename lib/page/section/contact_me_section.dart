@@ -85,13 +85,20 @@ class ContactMeSection extends StatelessWidget {
                     _SocialLink(
                       icon: Icons.code_rounded,
                       label: 'GitHub',
-                      url: 'https://github.com',
+                      url: 'https://github.com/dannyy21',
                     ),
                     const SizedBox(width: 32),
                     _SocialLink(
                       icon: Icons.business_center_rounded,
                       label: 'LinkedIn',
                       url: 'https://www.linkedin.com/in/danny-putra-pertama/',
+                    ),
+                    const SizedBox(width: 32),
+                    _SocialLink(
+                      icon: Icons.work_outline_rounded,
+                      label: 'Upwork',
+                      url:
+                          'https://www.upwork.com/freelancers/~01f5fb5f83710c9cba',
                     ),
                     const SizedBox(width: 32),
                     _SocialLink(
