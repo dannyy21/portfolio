@@ -324,6 +324,12 @@ class _TopSectionState extends State<TopSection> with TickerProviderStateMixin {
                 );
               },
             ),
+            _OutlineButton(
+              text: 'Personal Notes',
+              useAppleIcon: true,
+              onPressed: () => _launch(
+                  'https://docs.google.com/document/d/1h9c-_BXp-mBn1snrBxShuIGBaFg_GUMtdRROy6ZpBtU/edit?tab=t.0'),
+            ),
           ],
         ),
         const SizedBox(height: 36),
@@ -425,13 +431,68 @@ class _TopSectionState extends State<TopSection> with TickerProviderStateMixin {
   }
 }
 
+// ─── Apple Icon ──────────────────────────────────────────────────
+class _AppleIcon extends StatelessWidget {
+  final double size;
+  final Color? color;
+  const _AppleIcon({this.size = 18, this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: Size(size, size),
+      painter: _AppleIconPainter(color ?? AppColors.textSecondary),
+    );
+  }
+}
+
+class _AppleIconPainter extends CustomPainter {
+  final Color color;
+  _AppleIconPainter(this.color);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = color;
+    final w = size.width;
+    final h = size.height;
+
+    final body = Path()
+      ..moveTo(w * 0.54, h * 0.2)
+      ..cubicTo(w * 0.72, h * 0.2, w * 0.9, h * 0.38, w * 0.88, h * 0.62)
+      ..cubicTo(w * 0.86, h * 0.86, w * 0.66, h * 0.96, w * 0.5, h * 0.96)
+      ..cubicTo(w * 0.3, h * 0.96, w * 0.12, h * 0.82, w * 0.14, h * 0.58)
+      ..cubicTo(w * 0.16, h * 0.36, w * 0.34, h * 0.2, w * 0.54, h * 0.2)
+      ..close();
+
+    final bite = Path()
+      ..addOval(Rect.fromCircle(
+          center: Offset(w * 0.74, h * 0.6), radius: w * 0.11));
+
+    final leaf = Path()
+      ..moveTo(w * 0.54, h * 0.2)
+      ..quadraticBezierTo(w * 0.62, h * 0.04, w * 0.72, h * 0.1)
+      ..quadraticBezierTo(w * 0.6, h * 0.12, w * 0.54, h * 0.2);
+
+    canvas.drawPath(Path.combine(PathOperation.difference, body, bite), paint);
+    canvas.drawPath(leaf, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _AppleIconPainter oldDelegate) =>
+      oldDelegate.color != color;
+}
+
 // ─── Outline Button ──────────────────────────────────────────────
 class _OutlineButton extends StatefulWidget {
   final String text;
   final IconData? icon;
+  final bool useAppleIcon;
   final VoidCallback onPressed;
   const _OutlineButton(
-      {required this.text, this.icon, required this.onPressed});
+      {required this.text,
+      this.icon,
+      this.useAppleIcon = false,
+      required this.onPressed});
   @override
   State<_OutlineButton> createState() => _OutlineButtonState();
 }
@@ -440,6 +501,8 @@ class _OutlineButtonState extends State<_OutlineButton> {
   bool _h = false;
   @override
   Widget build(BuildContext context) {
+    final iconColor =
+        _h ? AppColors.accentCyan : AppColors.textSecondary;
     return MouseRegion(
       onEnter: (_) => setState(() => _h = true),
       onExit: (_) => setState(() => _h = false),
@@ -463,13 +526,13 @@ class _OutlineButtonState extends State<_OutlineButton> {
             children: [
               Text(widget.text,
                   style: AppTextStyles.labelLarge.copyWith(
-                      color:
-                          _h ? AppColors.accentCyan : AppColors.textSecondary)),
-              if (widget.icon != null) ...[
+                      color: iconColor)),
+              if (widget.useAppleIcon) ...[
                 const SizedBox(width: 10),
-                Icon(widget.icon,
-                    color: _h ? AppColors.accentCyan : AppColors.textSecondary,
-                    size: 18)
+                _AppleIcon(size: 18, color: iconColor),
+              ] else if (widget.icon != null) ...[
+                const SizedBox(width: 10),
+                Icon(widget.icon, color: iconColor, size: 18)
               ],
             ],
           ),
